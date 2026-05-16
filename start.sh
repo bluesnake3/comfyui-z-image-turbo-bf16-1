@@ -2,15 +2,15 @@
 
 echo "Install runtime python packages"
 
-if [ -f "/runpod-volume/requirements.txt" ]; then
-    pip install -r /runpod-volume/requirements.txt
+if [ -f "/workspace/requirements.txt" ]; then
+    pip install -r /workspace/requirements.txt
 fi
 
 echo "Link custom nodes"
 
 mkdir -p /comfyui/custom_nodes
 
-for dir in /runpod-volume/custom_nodes/*; do
+for dir in /workspace/custom_nodes/*; do
     if [ -d "$dir" ]; then
 
         name=$(basename "$dir")
