@@ -1,19 +1,24 @@
 #!/bin/bash
 
-echo "Activate persistent venv"
+echo "Install runtime python packages"
 
-source /runpod-volume/venv/bin/activate
+if [ -f "/runpod-volume/requirements.txt" ]; then
+    pip install -r /runpod-volume/requirements.txt
+fi
 
 echo "Link custom nodes"
 
 mkdir -p /comfyui/custom_nodes
 
 for dir in /runpod-volume/custom_nodes/*; do
-    name=$(basename "$dir")
+    if [ -d "$dir" ]; then
 
-    ln -sf "$dir" "/comfyui/custom_nodes/$name"
+        name=$(basename "$dir")
+
+        ln -sf "$dir" "/comfyui/custom_nodes/$name"
+    fi
 done
 
-echo "Start ComfyUI worker"
+echo "Start worker"
 
 python /start.py
